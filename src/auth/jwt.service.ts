@@ -29,13 +29,13 @@ export class JwtWrapperService {
 
     async verifyToken(token: string) : Promise<any> {
         return this.jwt.verifyAsync(token, {
-            secret: process.env.JWT_REFRESH_SECRET,
+            secret: process.env.JWT_SECRET,
         })
     }
 
     async verifyRefreshToken(token: string) {
         return this.jwt.verifyAsync(token, {
-            secret: process.env.JWT_REFRESH_TOKEN
-        })
+          secret: process.env.JWT_REFRESH_SECRET,
+        });
     }
 }

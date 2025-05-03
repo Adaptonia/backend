@@ -892,6 +892,8 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     email: string | null
+    firstName: string | null
+    lastName: string | null
     password: string | null
     provider: $Enums.AuthProvider | null
     providerId: string | null
@@ -902,6 +904,8 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     email: string | null
+    firstName: string | null
+    lastName: string | null
     password: string | null
     provider: $Enums.AuthProvider | null
     providerId: string | null
@@ -912,6 +916,8 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     email: number
+    firstName: number
+    lastName: number
     password: number
     provider: number
     providerId: number
@@ -924,6 +930,8 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     email?: true
+    firstName?: true
+    lastName?: true
     password?: true
     provider?: true
     providerId?: true
@@ -934,6 +942,8 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
+    firstName?: true
+    lastName?: true
     password?: true
     provider?: true
     providerId?: true
@@ -944,6 +954,8 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
+    firstName?: true
+    lastName?: true
     password?: true
     provider?: true
     providerId?: true
@@ -1027,6 +1039,8 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     email: string
+    firstName: string | null
+    lastName: string | null
     password: string | null
     provider: $Enums.AuthProvider
     providerId: string | null
@@ -1054,6 +1068,8 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
     password?: boolean
     provider?: boolean
     providerId?: boolean
@@ -1066,6 +1082,8 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
     password?: boolean
     provider?: boolean
     providerId?: boolean
@@ -1073,7 +1091,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "provider" | "providerId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "password" | "provider" | "providerId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1081,6 +1099,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
+      firstName: string | null
+      lastName: string | null
       password: string | null
       provider: $Enums.AuthProvider
       providerId: string | null
@@ -1457,6 +1477,8 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly firstName: FieldRef<"User", 'String'>
+    readonly lastName: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly provider: FieldRef<"User", 'AuthProvider'>
     readonly providerId: FieldRef<"User", 'String'>
@@ -1800,6 +1822,8 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
+    firstName: 'firstName',
+    lastName: 'lastName',
     password: 'password',
     provider: 'provider',
     providerId: 'providerId',
@@ -1829,6 +1853,8 @@ export namespace Prisma {
   export const UserOrderByRelevanceFieldEnum: {
     id: 'id',
     email: 'email',
+    firstName: 'firstName',
+    lastName: 'lastName',
     password: 'password',
     providerId: 'providerId'
   };
@@ -1878,6 +1904,8 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    firstName?: StringNullableFilter<"User"> | string | null
+    lastName?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     provider?: EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
     providerId?: StringNullableFilter<"User"> | string | null
@@ -1888,6 +1916,8 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     provider?: SortOrder
     providerId?: SortOrderInput | SortOrder
@@ -1902,6 +1932,8 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    firstName?: StringNullableFilter<"User"> | string | null
+    lastName?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     provider?: EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
     providerId?: StringNullableFilter<"User"> | string | null
@@ -1912,6 +1944,8 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     provider?: SortOrder
     providerId?: SortOrderInput | SortOrder
@@ -1928,6 +1962,8 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    firstName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     provider?: EnumAuthProviderWithAggregatesFilter<"User"> | $Enums.AuthProvider
     providerId?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -1938,6 +1974,8 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
     password?: string | null
     provider?: $Enums.AuthProvider
     providerId?: string | null
@@ -1948,6 +1986,8 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
     password?: string | null
     provider?: $Enums.AuthProvider
     providerId?: string | null
@@ -1958,6 +1998,8 @@ export namespace Prisma {
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -1968,6 +2010,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -1978,6 +2022,8 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
     password?: string | null
     provider?: $Enums.AuthProvider
     providerId?: string | null
@@ -1988,6 +2034,8 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -1998,6 +2046,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2067,6 +2117,8 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     password?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder
@@ -2077,6 +2129,8 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     password?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder
@@ -2087,6 +2141,8 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     password?: SortOrder
     provider?: SortOrder
     providerId?: SortOrder

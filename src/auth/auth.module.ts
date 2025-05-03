@@ -6,13 +6,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtWrapperService } from './jwt.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt.guard';
+import { UserModule } from 'src/user/user.module';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
-    JwtModule.register({})  // No config here, secrets are passed during sign/verify
+    JwtModule.register({}),  // No config here, secrets are passed during sign/verify
+    UserModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, JwtWrapperService, JwtStrategy,JwtAuthGuard],
+  providers: [AuthService, PrismaService, JwtWrapperService, JwtStrategy, JwtAuthGuard, GoogleStrategy],
   exports: [JwtWrapperService]
 })
 export class AuthModule {}

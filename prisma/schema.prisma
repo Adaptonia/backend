@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -16,18 +16,66 @@ datasource db {
 
 model User {
   id  String @id @default(uuid())
-  email String @unique
+  email String 
+  firstName String?
+  lastName String?
   password String?
   provider AuthProvider @default(CREDENTIALS)
   providerId String? // For Google/Apple ID
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  passwordResets PasswordReset[]
+  goals Goal[]
 
+  @@unique([email, provider]) // Compound unique constraint
   @@index([email])
+  @@index([providerId]) // Add index for faster providerId lookups
+}
+
+model PasswordReset {
+  id          String   @id @default(uuid())
+  token       String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
 }
 
 enum AuthProvider {
   GOOGLE
   APPLE 
   CREDENTIALS
+}
+
+model Goal {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  category    GoalCategory
+  deadline    DateTime?
+  location    String?
+  tags        String?  // Stored as comma-separated values
+  reminderDate DateTime?
+  isCompleted Boolean  @default(false)
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([category])
+}
+
+enum GoalCategory {
+  SCHEDULE
+  FINANCE
+  CAREER
+  AUDIO_BOOKS
 }
