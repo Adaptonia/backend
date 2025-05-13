@@ -4,24 +4,26 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from './guards/jwt.guard';
 import { Response } from 'express';
 import { JwtWrapperService } from './jwt.service';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { Public } from '../common/decorators/public.decorator';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Auth') // Group your endpoints
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private jwt: JwtWrapperService) {}
 
-  @Get('me')
-  @UseGuards(JwtAuthGuard) // or your custom session/auth guard
-  getMe(@Req() req) {
-    return req.user;
+  @Public() // Exempt from CSRF check
+  @Post('register')
+  async register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
   }
 
+  @Public() // Exempt from CSRF check
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('auth-token'); // match this to your cookie name
@@ -29,10 +31,14 @@ export class AuthController {
     return { message: 'Logged out successfully' };
   }
 
+  @Public() // Exempt from CSRF check
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() {}
+  async googleAuth() {
+    // Initiates Google Auth flow
+  }
 
+  @Public() // Exempt from CSRF check
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
@@ -58,6 +64,7 @@ export class AuthController {
     return res.redirect('http://localhost:3000/auth/callback?status=success');
   }
 
+  @Public() // Exempt from CSRF check
   @Get('refresh')
   async refresh(@Req() req, @Res() res: Response) {
     const refreshToken = req.cookies['refresh-token']
@@ -80,12 +87,7 @@ export class AuthController {
 
   }
 
-
-  @Post('register')
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
-  }
-
+  @Public() // Exempt from CSRF check
   @Post('login')
   async login(@Body() dto: LoginDto, @Res({ passthrough: true}) res: Response) {
     const {accessToken, refreshToken, user} = await this.authService.login(dto);
@@ -107,18 +109,51 @@ export class AuthController {
     return {message: 'Login successful', user}
   }
 
+  @Public() // Exempt from CSRF check
   @Post('forgot-password')
-  forgotPassword(@Body() dto: ForgotPasswordDto) {
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this.authService.forgotPassword(dto);
   }
 
+  @Public() // Exempt from CSRF check
   @Post('verify-code')
-  verifyResetCode(@Body() dto: VerifyCodeDto) {
+  async verifyResetCode(@Body() dto: VerifyCodeDto) {
     return this.authService.verifyResetCode(dto);
   }
 
+  @Public() // Exempt from CSRF check
   @Post('reset-password')
-  resetPassword(@Body() dto: ResetPasswordDto) {
+  async resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getCurrentUser(@Req() req) {
+    const user = req.user;
+    delete user.password; // Remove sensitive info
+    return user;
+  }
+
+  @Public() // Exempt from CSRF check
+  @Get('csrf-token')
+  getCsrfToken(@Req() req) {
+    try {
+      if (typeof req.csrfToken !== 'function') {
+        return { 
+          csrfToken: '',
+          error: 'CSRF middleware not properly initialized' 
+        };
+      }
+      
+      const token = req.csrfToken();
+      return { csrfToken: token };
+    } catch (error) {
+      console.error('Error generating CSRF token:', error);
+      return { 
+        csrfToken: '', 
+        error: 'Failed to generate CSRF token'
+      };
+    }
   }
 }

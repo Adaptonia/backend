@@ -2,9 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } f
 import { GoalsService } from './goals.service';
 import { CreateGoalDto, GoalCategory } from './dto/create-goal.dto';
 import { UpdateGoalDto } from './dto/update-goal.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { GetUser } from '../auth/decorators/get-user.decorator';
-
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @Controller('goals')
 @UseGuards(JwtAuthGuard)
 export class GoalsController {

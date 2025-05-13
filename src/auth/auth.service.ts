@@ -202,14 +202,14 @@ export class AuthService {
     } catch (err) {
       console.error('❌ Google login failed:', err);
 
-      if (err.code === 'P2002') {
-        throw new UnauthorizedException(
-          'Account conflict. Please try again in a few moments.'
-        );
-      }
-      throw new UnauthorizedException('Google login failed');
+    if (err.code === 'P2002') {
+      throw new UnauthorizedException(
+        'Account conflict. Please try again in a few moments.'
+      );
     }
+    throw new UnauthorizedException('Google login failed');
   }
+}
 
   // IMPLEMENT PASSWORD RESET FUNCTIONALITY
 

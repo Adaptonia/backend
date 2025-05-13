@@ -2,20 +2,31 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { JwtWrapperService } from './jwt.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { JwtAuthGuard } from './guards/jwt.guard';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 import { GoogleStrategy } from './strategies/google.strategy';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
+import { CommonModule } from '../common/common.module';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 @Module({
   imports: [
-    JwtModule.register({}),  // No config here, secrets are passed during sign/verify
-    UserModule
+    UserModule,
+    CommonModule,
+    PassportModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '15m' }
+      })
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, PrismaService, JwtWrapperService, JwtStrategy, JwtAuthGuard, GoogleStrategy],
-  exports: [JwtWrapperService]
+  exports: [AuthService, JwtWrapperService]
 })
 export class AuthModule {}
